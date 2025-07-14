@@ -1,0 +1,28 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: kadaruzayr@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: letsencrypt-account-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+    - dns01:
+        # Use the Route 53 DNS provider to solve the challenge
+        route53:
+          region: eu-west-2
+          hostedZoneID: Z00144731OD8N2J2LA4DY # Replace with your actual Route 53 hosted zone ID
+      selector:
+        dnsZones:
+        - eks.uzayr.uk # This is the domain that cert-manager will manage. It will create and update DNS records for this domain.
+    - http01:
+        ingress:
+          class: nginx
+          
