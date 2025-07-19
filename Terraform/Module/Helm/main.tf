@@ -10,9 +10,28 @@ resource "helm_release" "cert_manager" {
         name  = "installCRDs"
         value = "true"
     }
-    values = [
-        "${file("C:/Users/uzayr/production-EKS-cluster/Terraform/Helm-values/cert-manager.yaml")}"
-    ]
+
+    set {
+    name = "serviceAccount.create"
+      value = "true"
+  }
+  set {
+    name = "serviceAccount.name"
+      value = "cert-manager"
+  }
+
+     set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = var.cert_manager_irsa_arn
+  }
+
+
+   values = [
+  file("C:/Users/uzayr/production-EKS-cluster/Terraform/Helm-values/cert-manager.yaml")
+]
+
+
+
 }
 
 resource "helm_release" "nginx_ingress" {
@@ -37,24 +56,42 @@ resource "helm_release" "external_dns" {
 
  namespace = "external-dns"
 
- set {
-  name  = "serviceAccount.name"
-  value = "external-dns"
-}
+  set {
+    name = "serviceAccount.create"
+      value = "true"
+  }
+  set {
+    name = "serviceAccount.name"
+      value = "external-dns"
+  }
 
-set {
-  name  = "serviceAccount.create"
-  value = "true"
-}
-set {
-  name  = "aws.region"
-  value = var.aws_region
-}
+     set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = var.external_dns_irsa_arn
+  }
 
 
-set {
-  name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-  value = var.external_dns_irsa_arn
-}
+
+values = [
+  file("C:/Users/uzayr/production-EKS-cluster/Terraform/Helm-values/external-dns.yaml")
+]
  
+}
+
+resource "helm_release" "argocd-deploy" {
+  name = var.argocd_name
+  repository = "https://argoproj.github.io/argo-helm"
+  chart = "argo-cd"
+  timeout = "600"
+
+  create_namespace = true
+  namespace = "argocd"
+
+values = [
+  file("C:/Users/uzayr/production-EKS-cluster/Terraform/Helm-values/argocd.yaml")
+]
+
+depends_on = [ helm_release.cert_manager, helm_release.nginx_ingress, helm_release.external_dns ]
+
+
 }

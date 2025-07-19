@@ -45,6 +45,7 @@ module "Helm" {
   cert_manager_name     = "cert-manager"
   nginx_ingress_name    = "nginx-ingress"
   external_dns_name     = "external-dns"
+  argocd_name           = "argocd"
   external_dns_irsa_arn = module.IAM.external_dns_irsa_arn
   cert_manager_irsa_arn = module.IAM.cert_manager_irsa_arn
   depends_on            = [module.EKS, module.IAM]
