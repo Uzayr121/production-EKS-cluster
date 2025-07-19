@@ -32,3 +32,8 @@ variable "aws_region" {
   default = "eu-west-2"
   
 }
+variable "argocd_name" {
+  description = "The name of the ArgoCD Helm release."
+  type        = string
+  
+}

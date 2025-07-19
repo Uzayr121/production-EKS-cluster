@@ -7,7 +7,6 @@ env:
 
 domainFilters:
 - eks.uzayr.uk # This is the domain that external-dns will manage. It will create and update DNS records for this domain.
-
-ServiceAccount:
-annotations:
-eks.amazonaws.com/role-arn: arn:aws:iam::050451387626:role/external-dns-irsa-role # this attaches the IAM role to the service account, allowing it to access AWS resources and manaage DNS records
+#ServiceAccount:
+#annotations:
+#eks.amazonaws.com/role-arn: arn:aws:iam::050451387626:role/external-dns-irsa-role # this attaches the IAM role to the service account, allowing it to access AWS resources and manaage DNS records

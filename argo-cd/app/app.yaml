@@ -4,7 +4,7 @@ metadata:
   name: app-deployment
   namespace: default
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: my-app
@@ -43,8 +43,9 @@ metadata:
   name: app-ingress
   namespace: default
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"
+    cert-manager.io/cluster-issuer: "issuer" # This annotation tells cert-manager to use the letsencrypt ClusterIssuer for this Ingress
 spec:
+  ingressClassName: nginx # without this line, the Ingress may not be recognized by the NGINX Ingress Controller, its used to specify which Ingress controller should handle this Ingress resource
   rules:
     - host: eks.uzayr.uk # Replace with your actual domain
       http:
@@ -56,3 +57,8 @@ spec:
                 name: app-service
                 port:
                   number: 80
+
+  tls:
+  - hosts:
+    - eks.uzayr.uk # Replace with your actual domain
+    secretName: eks-uzayr-tls # This is the secret that will store the TLS certificate
