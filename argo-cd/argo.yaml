@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app
+  namespace: argo-cd
+spec:
+  project: default
+
+  source:
+    repoURL: "https://github.com/Uzayr121/production-EKS-cluster.git"
+    # The path to the directory containing the Kubernetes manifests or Helm chart.
+    targetRevision: main
+    path: C:\Users\uzayr\production-EKS-cluster\argo-cd\app/app.yaml
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: app
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
