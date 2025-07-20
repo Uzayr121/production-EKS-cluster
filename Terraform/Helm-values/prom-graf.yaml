@@ -1,0 +1,30 @@
+prometheus:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    annotations:
+      nginx.org/hsts: "false"
+      cert-manager.io/cluster-issuer: "issuer"
+    hosts:
+      - prometheus.eks.uzayr.uk
+    tls:
+      - hosts:
+          - prometheus.eks.uzayr.uk
+        secretName: prometheus-ingress-tls
+grafana:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    annotations:
+      nginx.org/hsts: "false"
+      cert-manager.io/cluster-issuer: issuer
+    hosts:
+    - grafana.eks.uzayr.uk
+    tls:
+    - secretName: grafana-ingress-tls
+      hosts:
+      - grafana.eks.uzayr.uk

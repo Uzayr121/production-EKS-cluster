@@ -37,3 +37,8 @@ variable "argocd_name" {
   type        = string
   
 }
+variable "prom_graf_name" {
+  description = "The name of the Prometheus and Grafana Helm release."
+  type        = string
+  
+}

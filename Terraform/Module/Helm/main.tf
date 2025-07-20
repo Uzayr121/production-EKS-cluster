@@ -95,3 +95,19 @@ depends_on = [ helm_release.cert_manager, helm_release.nginx_ingress, helm_relea
 
 
 }
+
+resource "helm_release" "kube-prom-graf" {
+  name = var.prom_graf_name
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+
+  create_namespace = true
+  namespace = "monitoring"
+
+  values = [
+    file("C:/Users/uzayr/production-EKS-cluster/Terraform/Helm-values/prom-graf.yaml")
+  ] 
+
+  depends_on = [ helm_release.nginx_ingress, helm_release.cert_manager, helm_release.external_dns ]
+
+}
