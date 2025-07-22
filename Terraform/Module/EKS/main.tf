@@ -18,7 +18,11 @@ module "eks" {
     instance_type = "t3a.large, t3.large"
  } 
  eks_managed_node_groups = {
-    default = {}
+    default = {
+      desired_size = 3
+      max_size     = 4
+      min_size     = 1
+    }
  }
 
  tags = var.tags

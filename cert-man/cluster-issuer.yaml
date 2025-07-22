@@ -18,7 +18,7 @@ spec:
         # Use the Route 53 DNS provider to solve the challenge
         route53:
           region: eu-west-2
-          hostedZoneID: Z01070643Q3JGR5C45CKK # Replace with your actual Route 53 hosted zone ID
+          hostedZoneID: Z04937193VXHXIIB3HC7Y # Replace with your actual Route 53 hosted zone ID
       selector:
         dnsZones:
         - eks.uzayr.uk # This is the domain that cert-manager will manage. It will create and update DNS records for this domain.

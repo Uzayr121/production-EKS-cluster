@@ -103,6 +103,7 @@ resource "helm_release" "kube-prom-graf" {
 
   create_namespace = true
   namespace = "monitoring"
+  timeout = "1800"
 
   values = [
     file("C:/Users/uzayr/production-EKS-cluster/Terraform/Helm-values/prom-graf.yaml")
